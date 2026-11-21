@@ -14,12 +14,13 @@ app = FastAPI(
 )
 
 
-# Allow requests from the local frontend
+# Allow requests from local development and Lovable preview
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "http://127.0.0.1:5173"
+        "http://127.0.0.1:5173",
+        "https://id-preview--fa93cbe7-40a0-44ba-905d-e69f9507e163.lovable.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -48,15 +49,15 @@ def health_check():
 @app.post("/link-analysis")
 async def link_analysis(request: LinkAnalysisRequest):
     try:
-        # Step 1: Extract website content
+        # Extract website content
         website_data = await extract_website_content(
             str(request.url)
         )
 
-        # Step 2: Analyze website using Gemini
+        # Analyze website using Gemini
         analysis_result = analyze_website(website_data)
 
-        # Step 3: Return structured analysis
+        # Return structured analysis
         return {
             "success": True,
             "url": website_data["url"],
@@ -75,3 +76,4 @@ async def link_analysis(request: LinkAnalysisRequest):
             status_code=502,
             detail="Website analysis failed. Please check the server logs."
         )
+
