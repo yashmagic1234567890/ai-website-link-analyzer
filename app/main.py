@@ -18,6 +18,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "https://id-preview--fa93cbe7-40a0-44ba-905d-e69f9507e163.lovable.app"
@@ -76,4 +78,3 @@ async def link_analysis(request: LinkAnalysisRequest):
             status_code=502,
             detail="Website analysis failed. Please check the server logs."
         )
-
